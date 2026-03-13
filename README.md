@@ -1,6 +1,6 @@
 # 🛡️ Security Headers Checker
 
-[![GitHub Marketplace](https://img.shields.io/badge/GitHub%20Marketplace-Security%20Headers%20Checker-red?logo=github)](https://github.com/marketplace/actions/security-headers-checker)
+[![GitHub Marketplace](https://img.shields.io/badge/GitHub%20Marketplace-Qualtio%20Security%20Headers%20Checker-red)](https://github.com/marketplace/actions/security-headers-checker)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 A GitHub Action that validates the **HTTP security headers** of a deployed application and fails the pipeline if required headers are missing or misconfigured — enforcing security posture as part of your CI/CD workflow.
