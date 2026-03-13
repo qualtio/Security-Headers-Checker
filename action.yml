@@ -1,0 +1,61 @@
+name: 'Security Headers Checker'
+description: 'Validates HTTP security headers of a deployed URL and fails the pipeline if required headers are missing or misconfigured'
+author: 'Qualtio Soluciones Digitales, SLU'
+
+branding:
+  icon: 'shield'
+  color: 'red'
+
+inputs:
+  url:
+    description: 'URL to check (e.g. https://your-app.example.com)'
+    required: true
+  fail-on-missing:
+    description: 'Comma-separated list of headers that MUST be present to pass'
+    required: false
+    default: 'Strict-Transport-Security,X-Content-Type-Options,X-Frame-Options'
+  warn-on-missing:
+    description: 'Comma-separated list of headers that trigger a warning if missing'
+    required: false
+    default: 'Content-Security-Policy,Permissions-Policy,Referrer-Policy'
+  follow-redirects:
+    description: 'Follow HTTP redirects before checking headers'
+    required: false
+    default: 'true'
+  timeout:
+    description: 'Request timeout in seconds'
+    required: false
+    default: '10'
+  report-file:
+    description: 'Path to write a JSON report (leave empty to skip)'
+    required: false
+    default: ''
+
+outputs:
+  passed:
+    description: 'true if all required headers are present'
+    value: ${{ steps.check.outputs.passed }}
+  score:
+    description: 'Security score from 0 to 100'
+    value: ${{ steps.check.outputs.score }}
+  missing-required:
+    description: 'Comma-separated list of missing required headers'
+    value: ${{ steps.check.outputs.missing_required }}
+  report-path:
+    description: 'Path to the JSON report file (if report-file was set)'
+    value: ${{ steps.check.outputs.report_path }}
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Check security headers
+      id: check
+      shell: bash
+      env:
+        TARGET_URL: ${{ inputs.url }}
+        FAIL_ON_MISSING: ${{ inputs.fail-on-missing }}
+        WARN_ON_MISSING: ${{ inputs.warn-on-missing }}
+        FOLLOW_REDIRECTS: ${{ inputs.follow-redirects }}
+        TIMEOUT: ${{ inputs.timeout }}
+        REPORT_FILE: ${{ inputs.report-file }}
+      run: bash ${{ github.action_path }}/scripts/check-headers.sh
