@@ -1,4 +1,4 @@
-name: 'Security Headers Checker'
+name: 'qualtio Security Headers Checker'
 description: 'Validates HTTP security headers of a deployed URL and fails the pipeline if required headers are missing or misconfigured'
 author: 'Qualtio Soluciones Digitales, SLU'
 
